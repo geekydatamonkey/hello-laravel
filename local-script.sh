@@ -5,7 +5,7 @@ sudo curl -L -o '/etc/apache2/sites-available/hello-laravel.conf' https://gist.g
 
 # Turn off any default sites
 sudo a2dissite 000-default
-sudo a2dissite 192.168.22.10.zip.io
+sudo a2dissite 192.168.22.10.xip.io
 sudo a2disssite default-ssl
 
 # Turn on new hello-laravel site
