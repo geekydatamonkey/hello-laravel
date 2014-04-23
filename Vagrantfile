@@ -72,11 +72,15 @@ Vagrant.configure("2") do |config|
   # Create a static IP
   config.vm.network :private_network, ip: server_ip
 
+  #Live Reload
+  config.vm.network :forwarded_port, guest: 35729, host: 35729
+
   # Use NFS for the shared folder
   config.vm.synced_folder ".", "/vagrant",
             id: "core",
             :nfs => true,
-            :mount_options => ['nolock,vers=3,udp,noatime']
+            :mount_options => ['nolock,vers=3,udp,noatime,actimeo=1']
+            #:mount_options => ['actimeo=2']
 
   # If using VirtualBox
   config.vm.provider :virtualbox do |vb|

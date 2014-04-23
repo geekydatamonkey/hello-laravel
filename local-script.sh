@@ -14,3 +14,8 @@ sudo service apache2 reload
 
 # Support for ruby-sass
 sudo gem install sass
+
+#sudo apt-get update
+#sudo apt-get upgrade
+#sudo apt-get dist-upgrade
+

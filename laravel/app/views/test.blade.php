@@ -6,6 +6,6 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  Hello there!
+  Helloooo  laravel!
 </body>
 </html>

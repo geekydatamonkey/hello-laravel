@@ -17,8 +17,7 @@ var gulp = require('gulp'),
     cache = require('gulp-cache'),
     livereload = require('gulp-livereload'),
     lr = require('tiny-lr'),
-    server = lr(),
-    embedlr = require('gulp-embedlr')
+    server = lr();
 
 //CSS directories
 var srcSassDir = 'app/assets/sass';
