@@ -19,3 +19,4 @@ sudo gem install sass
 #sudo apt-get upgrade
 #sudo apt-get dist-upgrade
 
+sudo apt-get install sqlite3

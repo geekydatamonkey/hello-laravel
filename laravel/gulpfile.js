@@ -20,58 +20,85 @@ var gulp = require('gulp'),
     server = lr();
 
 //CSS directories
-var srcSassDir = 'app/assets/sass';
-var targetCSSDir = 'public/css';
- 
-//javascript directories
-var srcJSDir = 'app/assets/js';
-var targetJSDir = 'public/js';
+var paths = {
+    styles: {
+        sourceDir: 'app/assets/sass',
+        targetDir:  'public/css',
+        fileType: '*.scss'
+    },
+    scripts: {
+        sourceDir: 'app/assets/js',
+        targetDir: 'public/js',
+        fileType: '*.js'
+    },
+    images: {
+      sourceDir: 'app/assets/img',
+      targetDir: 'public/img'
+    },
+    livereload: {
+        sourceDir: 'app',
+        fileType: '*.php'
+    }
+};
  
 // blade directory
 var srcBladeDir = 'app/views';
 
 
 gulp.task('styles', function() {
-  return gulp.src('app/assets/sass/main.scss')
+  var p = paths.styles;
+  return gulp.src(p.sourceDir + '/**/' + p.fileType)
     .pipe(sass({ style: 'expanded' }))
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('public/css'))
+    .pipe(gulp.dest(p.targetDir))
     .pipe(rename({suffix: '.min'}))
     .pipe(minifycss())
-    .pipe(gulp.dest('public/css'))
+    .pipe(gulp.dest(p.targetDir))
     .pipe(livereload(server))
     .pipe(notify({ message: 'Styles task complete' }));
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('app/assets/js/**/*.js')
+  var p = paths.scripts;
+  return gulp.src(p.sourceDir + '/**/' + p.fileType)
     .pipe(jshint('.jshintrc'))
     .pipe(jshint.reporter('default'))
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('public/js'))
+    .pipe(gulp.dest(p.targetDir))
     .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
-    .pipe(gulp.dest('public/js'))
+    .pipe(gulp.dest(p.targetDir))
     .pipe(livereload(server))
     .pipe(notify({ message: 'Scripts task complete' }));
 });
 
 gulp.task('images', function() {
-  return gulp.src('app/assets/img/**/*')
+  var p = paths.images;
+  return gulp.src(p.sourceDir)
     .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
-    .pipe(gulp.dest('public/img'))
+    .pipe(gulp.dest(p.targetDir))
     .pipe(livereload(server))
     .pipe(notify({ message: 'Images task complete' }));
 });
 
 gulp.task('clean', function() {
-  return gulp.src(['public/css', 'public/js', 'public/img'], {read: false})
+  return gulp.src([
+      paths.styles.targetDir,
+      paths.scripts.targetDir,
+      paths.images.targetDir
+    ], {read: false})
     .pipe(clean());
 });
 
 /* Blade Templates */
-gulp.task('blade', function() {
-    return gulp.src(srcBladeDir + '/**/*.blade.php')
+// gulp.task('blade', function() {
+//     return gulp.src(srcBladeDir + '/**/*.blade.php')
+//         .pipe(livereload(server));
+// });
+
+gulp.task('livereload', function(){
+  var p = paths.livereload;
+    return gulp.src(p.sourceDir + '/**/' + p.fileType)
         .pipe(livereload(server));
 });
 
@@ -84,8 +111,8 @@ gulp.task('watch', function() {
     };
 
     // Watch tasks go inside inside server.listen()
-    
-    gulp.watch(srcBladeDir + '/**/*.blade.php', ['blade']);
+
+    gulp.watch(paths.livereload.sourceDir + '/**/' + paths.livereload.fileType, ['livereload']);
 
     // Watch .scss files
     gulp.watch('app/assets/sass/**/*.scss', ['styles']);
