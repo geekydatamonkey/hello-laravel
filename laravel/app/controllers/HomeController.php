@@ -21,7 +21,8 @@ class HomeController extends BaseController {
 	}
 
 	public function index() {
-		return View::make('test');
+    $users = User::all();
+    return $users;
 	}
 
 }
