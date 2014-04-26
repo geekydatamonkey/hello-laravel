@@ -1,0 +1,1 @@
+/vagrant/laravel/app/views/courses/show.blade.php
