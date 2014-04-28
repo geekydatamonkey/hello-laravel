@@ -21,8 +21,7 @@ class HomeController extends BaseController {
 	}
 
 	public function index() {
-    $users = User::all();
-    return $users;
+		return Redirect::route('users.index');
 	}
 
 }
