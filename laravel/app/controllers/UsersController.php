@@ -35,13 +35,20 @@ class UsersController extends \BaseController {
 	 */
 	public function store()
 	{
-		$user = new User();
 
-		$user->username = Input::get('username');
-		$user->password = Hash::make(Input::get('password'));
-		$user->save();
+		$validation = Validator::make(Input::all(),User::$validation_rules);
 
-		return Redirect::route('users.index')->with('newUser',$user);
+		if ($validation->fails()) {
+			return Redirect::route('users.create')->withErrors($validation)->withInput(Input::except('password'));
+    } else {
+
+      $user = new User();
+      $user->username = Input::get('username');
+      $user->password = Hash::make(Input::get('password'));
+      $user->save();
+
+      return Redirect::route('users.index')->with('newUser',$user);
+    }
 	}
 
 	/**

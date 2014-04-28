@@ -10,6 +10,11 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
       'password'
     ];
 
+    static $validation_rules = [
+      'username' => 'required|unique:users',
+      'password' => 'required|confirmed'
+    ];
+
 	/**
 	 * The database table used by the model.
 	 *
